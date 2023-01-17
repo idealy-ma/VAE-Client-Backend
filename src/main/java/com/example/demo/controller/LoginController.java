@@ -35,7 +35,7 @@ public class LoginController {
     public HashMap<String, Object> login(@RequestHeader(name="email") String email, @RequestHeader(name="mdp") String mdp) throws Exception{
         try {
             returnValue.clear();
-            BDD bdd = new BDD("postgres", "root", "Enchere");
+            BDD bdd = new BDD("postgres", "root", "Enchere", "postgresql");
             try (Connection c = bdd.getConnection()) {
                 Client client = new Client();
                 client.setEmail(email);
