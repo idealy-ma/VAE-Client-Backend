@@ -179,6 +179,7 @@ public class BddObject {
             preparedStatement = c.prepareStatement(sql);
             
             for (int i = 0; i < colList.length; i++) {
+                System.out.println(!isPrimaryKey(colList[i]));
                 if(!isPrimaryKey(colList[i])){
                     System.out.println(colList[i]);
                     Method m = this.getMethodInto("get"+colList[i], methods);
