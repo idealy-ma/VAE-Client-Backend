@@ -143,7 +143,7 @@ public class Enchere extends BddObject{
     @Override
     public void create(Connection c) throws Exception {
         String sql="insert into Enchere(nomproduit,prixMin,description,idCategorie,idClient) values (?,?,?,?,?)";
-        ArrayList<Object> objects=new ArrayList();
+        ArrayList<Object> objects=new ArrayList<>();
         objects.add(this.nomProduit);
         objects.add(this.prixMin);
         objects.add(this.description);
