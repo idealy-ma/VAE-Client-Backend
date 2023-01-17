@@ -64,7 +64,7 @@ public class CompteController {
     }
 
     @PostMapping("/soldes")
-    public HashMap<String, Object> login(@RequestHeader(name="idClient") int idClient, @RequestHeader(name="montant") double montant) throws Exception{
+    public HashMap<String, Object> addRechargement(@RequestHeader(name="idClient") int idClient, @RequestHeader(name="montant") double montant) throws Exception{
         try {
             returnValue.clear();
             BDD bdd = new BDD("vae", "vae", "vae", "postgresql");
