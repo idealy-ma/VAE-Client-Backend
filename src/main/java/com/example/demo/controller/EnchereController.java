@@ -120,4 +120,34 @@ public class EnchereController {
         returnValue.put("response", new JSONException("200", "Insertion OK"));
         return returnValue;
     } 
+    
+    @GetMapping("/encheres/{idEnchere}")
+
+    public HashMap<String, Object> findEnchereByIdEnchere(@PathVariable int idEnchere) throws Exception{
+        System.out.println(idEnchere);
+        returnValue.clear();
+        ArrayList<Enchere> listeEnchere = new ArrayList<>();
+        try {
+            BDD bdd = new BDD("postgres", "root", "enchere","postgresql");
+            Connection c = bdd.getConnection();
+            Enchere enchere = new Enchere();
+            enchere.setIdEnchere(idEnchere);
+
+            ArrayList<Object> listeObjectEnchere = enchere.findAll(c);
+            
+            for (Object encher : listeObjectEnchere) {
+                listeEnchere.add((Enchere)encher);
+            }
+            
+            if (!listeEnchere.isEmpty()) {
+                returnValue.put("data", listeEnchere);
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(Enchere.class.getName()).log(Level.SEVERE, null, ex);
+            returnValue.put("error", new JSONException("500", ex.getMessage()));
+            return returnValue; 
+        }
+        return returnValue;
+    }
 }
