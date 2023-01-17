@@ -67,7 +67,7 @@ public class Mise extends BddObject{
     @Override
     public void create(Connection c) throws Exception {
         String sql="insert into Mise(soldeMise,idClient,idEnchere) values (?,?,?)";
-        ArrayList<Object> objects=new ArrayList();
+        ArrayList<Object> objects=new ArrayList<>();
         objects.add(this.soldeMise);
         objects.add(this.idClient);
         objects.add(this.idEnchere);

@@ -47,7 +47,7 @@ public class EnchereController {
         returnValue.clear();
         ArrayList<Enchere> listeEnchere = new ArrayList<>();
         try {
-            BDD bdd = new BDD("postgres", "root", "Enchere", "postgresql");
+            BDD bdd = new BDD("vae", "vae", "vae", "postgresql");
             Connection c = bdd.getConnection();
             Enchere enchere = new Enchere();
             ArrayList<Object> listeObjectEnchere = enchere.findAll(c);
@@ -74,7 +74,7 @@ public class EnchereController {
         returnValue.clear();
         ArrayList<Enchere> listeEnchere = new ArrayList<>();
         try {
-            BDD bdd = new BDD("postgres", "root", "Enchere", "postgresql");
+            BDD bdd = new BDD("vae", "vae", "vae", "postgresql");
             Connection c = bdd.getConnection();
             Enchere enchere = new Enchere();
             enchere.setIdClient(idClient);

@@ -46,7 +46,7 @@ public class MiseController {
         System.out.println("tesssssss");
         try {
             returnValue.clear();
-            BDD bdd = new BDD("postgres", "root", "Enchere", "postgresql");
+            BDD bdd = new BDD("vae", "vae", "vae", "postgresql");
             Connection c = bdd.getConnection();
             Mise mise = new Mise();
             mise.setIdEnchere(idEnchere);
