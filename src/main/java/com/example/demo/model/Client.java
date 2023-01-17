@@ -27,6 +27,7 @@ public class Client extends BddObject{
     private String prenom;
     private String email;
     private String mdp;
+    private float solde;
     private TokenUserModel myToken;
 
     public int getIdClient() {
@@ -68,7 +69,12 @@ public class Client extends BddObject{
     public void setMdp(String mdp) {
         this.mdp = mdp;
     }
-    
+    public float getSolde() {
+        return solde;
+    }
+    public void setSolde(float solde) {
+        this.solde = solde;
+    }
     
     public void generateToken() throws Exception{
         TokenUserModel tum = new TokenUserModel();
