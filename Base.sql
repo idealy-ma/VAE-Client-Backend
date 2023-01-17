@@ -21,6 +21,7 @@ CREATE TABLE Client (
   prenom   varchar(75) NOT NULL, 
   email    varchar(75) NOT NULL, 
   mdp      varchar(75) NOT NULL, 
+  soldeClient double precision default 0;
   PRIMARY KEY (idClient)
   );
 INSERT INTO Client(nom,prenom,email,mdp) values ('Falimanantsoa','Ando','ando@gmail.com','andolove');
@@ -36,8 +37,8 @@ CREATE TABLE Commission (
 CREATE TABLE Enchere (
   idEnchere            SERIAL NOT NULL, 
   nomProduit           varchar(255) NOT NULL, 
-  dateDebut            timestamp NOT NULL, 
-  dateFin              timestamp NOT NULL, 
+  dateDebut            timestamp default NULL, 
+  dateFin              timestamp default NULL, 
   prixMin              float8 NOT NULL, 
   description          varchar(255) NOT NULL, 
   idCategorie int4 NOT NULL, 
@@ -48,6 +49,12 @@ CREATE TABLE Enchere (
   );
 insert into Enchere(idClient,idCategorie,nomProduit,dateDebut,dateFin,prixMin,description) values ('1','2','Collier','16-01-2023 06:00:00','20-01-2023 12:00:00','60000','Fabriqué en Inde');
 
+CREATE TABLE EnchereValide(
+  idEnchereValide serial primary key,
+  dateValidation timestamp default CURRENT_TIMESTAMP,
+  idEnchere int not null,
+  foreign key(idEnchere) REFERENCES Enchere(idEnchere)
+);
 CREATE TABLE Mise (
   idMise           SERIAL NOT NULL, 
   dateMise         timestamp NOT NULL default CURRENT_TIMESTAMP, 
@@ -108,6 +115,7 @@ Create TABLE RechargementCompte(
     dateRechargement date default CURRENT_DATE,
     montant double precision,
     idClient int not null,
+    etat int not null default 0,
     Foreign key(idClient) REFERENCES Client(idClient)
 );
 

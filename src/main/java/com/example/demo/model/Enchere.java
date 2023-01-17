@@ -7,7 +7,13 @@ package com.example.demo.model;
 
 import com.example.demo.dbmanager.annotation.PrimaryKey;
 import com.example.demo.dbmanager.bdd.object.BddObject;
+import com.example.demo.dbmanager.connection.BDD;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -33,6 +39,19 @@ public class Enchere extends BddObject{
     }
 
     public Client getClient() {
+        if(this.client == null) {
+            this.client = new Client();
+            this.client.setIdClient(this.getIdClient());
+            try {
+                Connection c = new BDD("postgres","root","Enchere","postgresql").getConnection();
+                this.client.find(c);
+                c.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(Enchere.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (Exception ex) {
+                Logger.getLogger(Enchere.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         return client;
     }
 
@@ -85,6 +104,19 @@ public class Enchere extends BddObject{
     }
 
     public Categorie getCategorie() {
+        if(this.categorie == null) {
+            this.categorie = new Categorie();
+            this.categorie.setIdCategorie(this.getIdCategorie());
+            try {
+                Connection c = new BDD("postgres","root","Enchere","postgresql").getConnection();
+                this.categorie.find(c);
+                c.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(Enchere.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (Exception ex) {
+                Logger.getLogger(Enchere.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         return categorie;
     }
 
@@ -108,5 +140,15 @@ public class Enchere extends BddObject{
         this.idClient = idClient;
     }
     
-    
+    @Override
+    public void create(Connection c) throws Exception {
+        String sql="insert into Enchere(nomproduit,prixMin,description,idCategorie,idClient) values (?,?,?,?,?)";
+        ArrayList<Object> objects=new ArrayList();
+        objects.add(this.nomProduit);
+        objects.add(this.prixMin);
+        objects.add(this.description);
+        objects.add(this.idCategorie);
+        objects.add(this.idClient);
+        executeQuery(c, sql, objects);
+    }
 }
