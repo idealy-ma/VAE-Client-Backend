@@ -42,16 +42,16 @@ public class MiseController {
         this.returnValue = returnValue;
     }
     @PostMapping("/mises")
-    public HashMap<String, Object> addMise() throws Exception{
+    public HashMap<String, Object> addMise(@RequestHeader(name="idEnchere") int idEnchere,@RequestHeader(name="soldeMise") double soldeMise,@RequestHeader(name="idClient") int idClient) throws Exception{
         System.out.println("tesssssss");
         try {
             returnValue.clear();
             BDD bdd = new BDD("postgres", "root", "Enchere", "postgresql");
             Connection c = bdd.getConnection();
             Mise mise = new Mise();
-            mise.setIdEnchere(2);
-            mise.setSoldeMise(300);
-            mise.setIdClient(3);
+            mise.setIdEnchere(idEnchere);
+            mise.setSoldeMise(soldeMise);
+            mise.setIdClient(idClient);
 
             mise.create(c);
             

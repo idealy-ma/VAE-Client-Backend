@@ -7,7 +7,9 @@ package com.example.demo.model;
 
 import com.example.demo.dbmanager.annotation.PrimaryKey;
 import com.example.demo.dbmanager.bdd.object.BddObject;
+import java.sql.Connection;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 
 /**
  *
@@ -108,5 +110,15 @@ public class Enchere extends BddObject{
         this.idClient = idClient;
     }
     
-    
+    @Override
+    public void create(Connection c) throws Exception {
+        String sql="insert into Enchere(nomproduit,prixMin,description,idCategorie,idClient) values (?,?,?,?,?)";
+        ArrayList<Object> objects=new ArrayList();
+        objects.add(this.nomProduit);
+        objects.add(this.prixMin);
+        objects.add(this.description);
+        objects.add(this.idCategorie);
+        objects.add(this.idClient);
+        executeQuery(c, sql, objects);
+    }
 }

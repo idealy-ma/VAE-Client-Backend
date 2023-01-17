@@ -17,6 +17,8 @@ import java.util.logging.Logger;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -93,4 +95,29 @@ public class EnchereController {
         }
         return returnValue;
     }
+    @PostMapping("/encheres")
+    public HashMap<String, Object> addEnchere(@RequestHeader(name="nomProduit") String nomProduit,@RequestHeader(name="prixMin") double prixMin,@RequestHeader(name="description") String description,@RequestHeader(name="idCategorie") int idCategorie,@RequestHeader(name="idClient") int idClient) throws Exception{
+        System.out.println("tesssssss");
+        try {
+            returnValue.clear();
+            BDD bdd = new BDD("postgres", "root", "Enchere", "postgresql");
+            Connection c = bdd.getConnection();
+            Enchere enchere = new Enchere();
+            enchere.setNomProduit(nomProduit);
+            enchere.setPrixMin(prixMin);
+            enchere.setDescription(description);
+            enchere.setIdCategorie(idCategorie);
+            enchere.setIdClient(idClient);
+
+            enchere.create(c);
+            
+            c.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(MiseController.class.getName()).log(Level.SEVERE, null, ex);
+            returnValue.put("error", new JSONException("500", ex.getMessage()));
+            return returnValue; 
+        }
+        returnValue.put("response", new JSONException("200", "Insertion OK"));
+        return returnValue;
+    } 
 }
