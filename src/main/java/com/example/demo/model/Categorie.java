@@ -5,11 +5,13 @@
  */
 package com.example.demo.model;
 
+import com.example.demo.dbmanager.bdd.object.BddObject;
+
 /**
  *
  * @author P14A_30_Ando
  */
-public class Categorie {
+public class Categorie extends BddObject{
     private int idCategorie;
     private String nomCategorie;
 

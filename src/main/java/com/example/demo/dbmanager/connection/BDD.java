@@ -26,6 +26,10 @@ public final class BDD {
         this.setMdp(mdp);
         this.setDatabaseType(databaseType);
     }
+
+    public BDD(String postgres, String root, String enchere) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
     public String getDatabaseType() {
         return databaseType;

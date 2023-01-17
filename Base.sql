@@ -21,6 +21,7 @@ CREATE TABLE Client (
   prenom   varchar(75) NOT NULL, 
   email    varchar(75) NOT NULL, 
   mdp      varchar(75) NOT NULL, 
+  soldeClient double precision default 0;
   PRIMARY KEY (idClient)
   );
 INSERT INTO Client(nom,prenom,email,mdp) values ('Falimanantsoa','Ando','ando@gmail.com','andolove');
@@ -114,6 +115,7 @@ Create TABLE RechargementCompte(
     dateRechargement date default CURRENT_DATE,
     montant double precision,
     idClient int not null,
+    etat int not null default 0,
     Foreign key(idClient) REFERENCES Client(idClient)
 );
 
