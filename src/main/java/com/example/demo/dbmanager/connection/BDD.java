@@ -2,20 +2,39 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.example.demo.dbmanager.connection;
+package com.application.rencontre.dbmanager.connection;
 
 import java.sql.DriverManager;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author i.m.a
  */
-public class BDD {
-    String user;
-    String databaseName;
-    String mdp;
+public final class BDD {
+    private String user;
+    private String databaseName;
+    private String mdp;
+    private String databaseType;
+
+    public BDD(String user, String mdp, String databaseName, String databaseType) throws Exception {
+        this.setUser(user);
+        this.setDatabaseName(databaseName);
+        this.setMdp(mdp);
+        this.setDatabaseType(databaseType);
+    }
+    
+    public String getDatabaseType() {
+        return databaseType;
+    }
+
+    public void setDatabaseType(String databaseType) throws Exception {
+        if(!databaseType.equalsIgnoreCase("postgresql") && !databaseType.equalsIgnoreCase("mssql")) throw new Exception("Unknown database");
+        this.databaseType = databaseType;
+    }
 
     public String getUser() {
         return user;
@@ -41,13 +60,18 @@ public class BDD {
         this.mdp = mdp;
     }
 
-    public BDD(String user, String mdp, String databaseName) {
-        this.user = user;
-        this.databaseName = databaseName;
-        this.mdp = mdp;
-    }
-
     public Connection getConnection() throws SQLException{
-        return DriverManager.getConnection("jdbc:postgresql://localhost:5432/"+this.getDatabaseName(),this.getUser(),this.getMdp());
+        Connection c = null;
+        if(this.getDatabaseType().equalsIgnoreCase("postgresql")){
+            c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/"+this.getDatabaseName(),this.getUser(),this.getMdp());
+        } else if(this.getDatabaseType().equalsIgnoreCase("mssql")) {
+            try {
+                Class.forName("com.microsoft.sqlserver.jdbc.SQLServerConnection");
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(BDD.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            c = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;encrypt=false;DatabaseName="+this.getDatabaseName(),this.getUser(),this.getMdp());
+        }
+        return c;
     }
 }
