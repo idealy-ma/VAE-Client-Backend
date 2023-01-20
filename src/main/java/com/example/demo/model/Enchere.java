@@ -20,7 +20,6 @@ import java.util.logging.Logger;
  *
  * @author P14A_30_Ando
  */
-@DBTable(tableName = "v_encherevalide" )
 public class Enchere extends BddObject{
     @PrimaryKey
     private int idEnchere;
@@ -144,9 +143,10 @@ public class Enchere extends BddObject{
     
     @Override
     public void create(Connection c) throws Exception {
-        String sql="insert into Enchere(nomproduit,prixMin,description,idCategorie,idClient) values (?,?,?,?,?)";
+        String sql="insert into Enchere(nomproduit,dateFin,prixMin,description,idCategorie,idClient) values (?,?,?,?,?,?)";
         ArrayList<Object> objects=new ArrayList<>();
         objects.add(this.nomProduit);
+        objects.add(this.dateFin);
         objects.add(this.prixMin);
         objects.add(this.description);
         objects.add(this.idCategorie);
