@@ -45,7 +45,7 @@ public class MiseController {
     public HashMap<String, Object> addMise(@RequestBody Mise mise) throws Exception{
         try {
             returnValue.clear();
-            new BDD("postgres", "HY6NINF73nbTN5zYpzsk", "railway", "postgresql")
+            new BDD("postgres", "HY6NINF73nbTN5zYpzsk", "railway", "postgresql");
             Connection c = bdd.getConnection();
             c.setAutoCommit(false);
             /**

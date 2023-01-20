@@ -44,7 +44,7 @@ public class Enchere extends BddObject{
             this.client = new Client();
             this.client.setIdClient(this.getIdClient());
             try {
-                Connection c = new BDD("postgres", "HY6NINF73nbTN5zYpzsk", "railway", "postgresql").getConnection();
+                Connection c = new BDD("postgres", "HY6NINF73nbTN5zYpzsk", "railway", "postgresql");.getConnection();
                 this.client.find(c);
                 c.close();
             } catch (SQLException ex) {

@@ -47,7 +47,7 @@ public class EnchereController {
         returnValue.clear();
         ArrayList<Enchere> listeEnchere = new ArrayList<>();
         try {
-            new BDD("postgres", "HY6NINF73nbTN5zYpzsk", "railway", "postgresql")
+            new BDD("postgres", "HY6NINF73nbTN5zYpzsk", "railway", "postgresql");
             Connection c = bdd.getConnection();
             Enchere enchere = new Enchere();
             ArrayList<Object> listeObjectEnchere = enchere.findAll(c);
@@ -73,7 +73,7 @@ public class EnchereController {
         returnValue.clear();
         ArrayList<Enchere> listeEnchere = new ArrayList<>();
         try {
-            new BDD("postgres", "HY6NINF73nbTN5zYpzsk", "railway", "postgresql")
+            new BDD("postgres", "HY6NINF73nbTN5zYpzsk", "railway", "postgresql");
             Connection c = bdd.getConnection();
             Enchere enchere = new Enchere();
             enchere.setIdClient(idClient);
@@ -98,7 +98,7 @@ public class EnchereController {
     public HashMap<String, Object> addEnchere(@RequestBody Enchere enchere) throws Exception{
         try {
             returnValue.clear();
-            new BDD("postgres", "HY6NINF73nbTN5zYpzsk", "railway", "postgresql")
+            new BDD("postgres", "HY6NINF73nbTN5zYpzsk", "railway", "postgresql");
             Connection c = bdd.getConnection();
             enchere.create(c);
             
@@ -118,7 +118,7 @@ public class EnchereController {
         returnValue.clear();
         ArrayList<Enchere> listeEnchere = new ArrayList<>();
         try {
-            new BDD("postgres", "HY6NINF73nbTN5zYpzsk", "railway", "postgresql")
+            new BDD("postgres", "HY6NINF73nbTN5zYpzsk", "railway", "postgresql");
             Connection c = bdd.getConnection();
             Enchere enchere = new Enchere();
             enchere.setIdEnchere(idEnchere);

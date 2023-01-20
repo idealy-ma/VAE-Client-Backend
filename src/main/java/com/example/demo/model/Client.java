@@ -83,7 +83,7 @@ public class Client extends BddObject{
         tum.setHash(Security.getMd5(String.valueOf(this.getIdClient())));
         tum.setExpirationDate(Timestamp.valueOf(LocalDateTime.now()));
         try {
-            new BDD("postgres", "HY6NINF73nbTN5zYpzsk", "railway", "postgresql")
+            new BDD("postgres", "HY6NINF73nbTN5zYpzsk", "railway", "postgresql");
             Connection c = bdd.getConnection();
             tum.find(c);
             c.close();
@@ -99,7 +99,7 @@ public class Client extends BddObject{
             try {
                 this.myToken = new TokenUserModel();
                 myToken.setUserId(this.getIdClient());
-                new BDD("postgres", "HY6NINF73nbTN5zYpzsk", "railway", "postgresql")
+                new BDD("postgres", "HY6NINF73nbTN5zYpzsk", "railway", "postgresql");
                 Connection c = bdd.getConnection();
                 myToken.find(c);
                 c.close();
