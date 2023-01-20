@@ -72,7 +72,8 @@ public class Mise extends BddObject{
             this.client = new Client();
             this.client.setIdClient(this.getIdClient());
             try {
-                Connection c = new BDD("vae","vae","vae","postgresql").getConnection();
+                BDD bdd = new BDD("postgres", "HY6NINF73nbTN5zYpzsk", "railway", "postgresql");
+                Connection c = bdd.getConnection();
                 this.client.find(c);
                 c.close();
             } catch (Exception ex) {
@@ -88,7 +89,8 @@ public class Mise extends BddObject{
             this.enchere.setIdEnchere(this.idClient);
 
             try {
-                Connection c = new BDD("vae","vae","vae","postgresql").getConnection();
+                BDD bdd = new BDD("postgres", "HY6NINF73nbTN5zYpzsk", "railway", "postgresql");
+                Connection c = bdd.getConnection();
                 this.enchere.find(c);
                 c.close();
             } catch (Exception ex) {
