@@ -27,7 +27,7 @@ public class CompteController {
     
     public CompteController() {
         try {
-            bdd = new BDD("vae", "vae", "vae", "postgresql");
+            bdd = new BDD("postgres", "HY6NINF73nbTN5zYpzsk", "railway", "postgresql");
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
