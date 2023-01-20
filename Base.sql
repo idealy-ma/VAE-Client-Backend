@@ -123,12 +123,34 @@ Create table rechargevalide(
     idRechargeValide serial primary key,
     idRechargement int not null,
     foreign key(idRechargement) REFERENCES RechargementCompte(idRechargement),
-    dateValidation date
+    dateValidation date DEFAULT now()
 );
 
+CREATE TABLE TokenUserModel(
+  userId INT REFERENCES client(idclient),
+  hash VARCHAR(255) NOT NULL,
+  expirationDate TIMESTAMP NOT NULL
+);
 
+CREATE or REPLACE VIEW v_max_per_encher as(
+  select max(idMise) idMise, idenchere
+  from mise 
+  group by idenchere
+);
 
+CREATE OR REPLACE VIEW v_last_per_encher as(
+  select enchere.*
+  from enchere
+  join v_max_per_encher
+  on v_max_per_encher.idenchere = enchere.idEnchere
+);
 
+CREATE OR REPLACE VIEW v_lastmise as(
+  select mise.*
+  from mise
+  join v_max_per_encher
+  on v_max_per_encher.idMise = mise.idMise
+);
 ALTER TABLE Enchere DROP CONSTRAINT FKEnchere39417;
 ALTER TABLE PhotoEnchere DROP CONSTRAINT FKPhotoEnche405191;
 ALTER TABLE Mise DROP CONSTRAINT FKMise233586;

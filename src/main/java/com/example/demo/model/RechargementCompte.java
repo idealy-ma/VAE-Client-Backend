@@ -55,7 +55,7 @@ public class RechargementCompte extends BddObject {
 
     @Override
     public void create(Connection c) throws Exception {
-        String sql="insert into RechargementCompte(idClient,montant) values (?,?)";
+        String sql="insert into RechargementCompte(idClient,montant,etat) values (?,?,1)";
         ArrayList<Object> objects=new ArrayList<>();
         objects.add(this.idClient);
         objects.add(this.montant);

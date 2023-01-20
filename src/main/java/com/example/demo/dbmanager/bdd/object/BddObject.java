@@ -211,6 +211,7 @@ public class BddObject {
             if(objects!=null && !objects.isEmpty()){
                 int i = 1;
                 for (Object object : objects) {
+                    System.out.println(" "+object);
                     if(!object.toString().startsWith("seq")){
                         preparedStatement.setObject(i, object);
                         i++;
@@ -264,6 +265,7 @@ public class BddObject {
             while(resultSet.next()){
                 Object o = this.getClass().newInstance();
                 for (int i = 1; i <= column; i++) {
+                    System.out.println("set"+resultSetMetaData.getColumnName(i));
                     Method m = this.getMethodInto("set"+resultSetMetaData.getColumnName(i), methods);
                     
                     if(m==null) throw new NoSuchMethodException("No method in findall, function");

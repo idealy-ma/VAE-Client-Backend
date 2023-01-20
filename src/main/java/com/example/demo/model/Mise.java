@@ -7,6 +7,8 @@ package com.example.demo.model;
 
 import com.example.demo.dbmanager.annotation.PrimaryKey;
 import com.example.demo.dbmanager.bdd.object.BddObject;
+import com.example.demo.dbmanager.connection.BDD;
+
 import java.sql.Connection;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -22,6 +24,8 @@ public class Mise extends BddObject{
     private double soldeMise;
     private int idEnchere;
     private int idClient;
+    private Client client;
+    private Enchere enchere;
 
     public int getIdMise() {
         return idMise;
@@ -63,6 +67,44 @@ public class Mise extends BddObject{
     public void setIdClient(int idClient) {
         this.idClient = idClient;
     }
+    public Client getClient() throws Exception {
+        if(this.client == null) {
+            this.client = new Client();
+            this.client.setIdClient(this.getIdClient());
+            try {
+                Connection c = new BDD("vae","vae","vae","postgresql").getConnection();
+                this.client.find(c);
+                c.close();
+            } catch (Exception ex) {
+                throw ex;
+            } 
+        }
+        return client;
+    }
+
+    public Enchere getEnchere() throws Exception {
+        if (this.enchere == null) {
+            this.enchere = new Enchere();
+            this.enchere.setIdEnchere(this.idClient);
+
+            try {
+                Connection c = new BDD("vae","vae","vae","postgresql").getConnection();
+                this.enchere.find(c);
+                c.close();
+            } catch (Exception ex) {
+                throw ex;
+            } 
+        }
+        return enchere;
+    }
+
+    public void setEnchere(Enchere enchere) {
+        this.enchere = enchere;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
 
     @Override
     public void create(Connection c) throws Exception {
@@ -73,6 +115,16 @@ public class Mise extends BddObject{
         objects.add(this.idEnchere);
         executeQuery(c, sql, objects);
     }
-    
-    
+
+    public Mise findLast(Connection c) throws Exception {
+        Mise lastMise = null;
+        String sql="select * from v_lastmise where idEnchere=?";
+        ArrayList<Object> objects=new ArrayList<>();
+        objects.add(this.idEnchere);
+        ArrayList<Object> l = executeResultedQuery(c, sql, objects);
+        if (!l.isEmpty()) {
+            lastMise = (Mise) l.get(0);
+        }
+        return lastMise;
+    }
 }

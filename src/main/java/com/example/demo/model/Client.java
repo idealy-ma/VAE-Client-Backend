@@ -13,6 +13,7 @@ import com.example.demo.util.security.TokenUserModel;
 import java.sql.Connection;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -27,7 +28,7 @@ public class Client extends BddObject{
     private String prenom;
     private String email;
     private String mdp;
-    private float solde;
+    private double soldeClient;
     private TokenUserModel myToken;
 
     public int getIdClient() {
@@ -69,11 +70,11 @@ public class Client extends BddObject{
     public void setMdp(String mdp) {
         this.mdp = mdp;
     }
-    public float getSolde() {
-        return solde;
+    public double getSoldeClient() {
+        return soldeClient;
     }
-    public void setSolde(float solde) {
-        this.solde = solde;
+    public void setSoldeClient(double soldeClient) {
+        this.soldeClient = soldeClient;
     }
     
     public void generateToken() throws Exception{
@@ -102,7 +103,6 @@ public class Client extends BddObject{
                 Connection c = bdd.getConnection();
                 myToken.find(c);
                 c.close();
-                // TODO : verification si le token est expirer
                 if(myToken.getHash()==null) this.generateToken();
             } catch (Exception ex) {
                 Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
@@ -115,4 +115,37 @@ public class Client extends BddObject{
         this.myToken = myToken;
     }    
     
+    @Override
+    public void create(Connection c) throws Exception {
+        String sql = "INSERT INTO Client(nom,prenom,email,mdp) VALUES (?,?,?,?)";
+        ArrayList<Object> objects=new ArrayList<>();
+        objects.add(this.nom);
+        objects.add(this.prenom);
+        objects.add(this.email);
+        objects.add(this.mdp);
+        executeQuery(c, sql, objects);
+    }
+    
+    public void updateSolde(Connection c) throws Exception {
+        String sql = "UPDATE client set soldeClient = ? where idClient = ?";
+        ArrayList<Object> objects=new ArrayList<>();
+        objects.add(this.getSoldeClient());
+        objects.add(this.getIdClient());
+        executeQuery(c, sql, objects);
+    }
+
+    public boolean verifySolde(double solde) {
+        if (this.getSoldeClient()>solde) {
+            return true;
+        }
+        return false;
+    }
+
+    public void debiter(double valeur){
+        this.setSoldeClient(this.getSoldeClient()-valeur);
+    }
+
+    public void crediter(double valeur){
+        this.setSoldeClient(this.getSoldeClient()+valeur);
+    }
 }

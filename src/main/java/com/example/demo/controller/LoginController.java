@@ -15,7 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -31,15 +31,12 @@ public class LoginController {
         returnValue = new HashMap<>();
     }  
     
-    @PostMapping("/clients")
-    public HashMap<String, Object> login(@RequestHeader(name="email") String email, @RequestHeader(name="mdp") String mdp) throws Exception{
+    @PostMapping("/login")
+    public HashMap<String, Object> login(@RequestBody Client client) throws Exception{
         try {
             returnValue.clear();
             BDD bdd = new BDD("vae", "vae", "vae", "postgresql");
             try (Connection c = bdd.getConnection()) {
-                Client client = new Client();
-                client.setEmail(email);
-                client.setMdp(mdp);
 
                 client.find(c);
                 if(client.getIdClient()>0){
@@ -47,6 +44,22 @@ public class LoginController {
                 } else {
                     returnValue.put("error", new JSONException("403", "User not found"));
                 }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+            returnValue.put("error", new JSONException("500", ex.getMessage()));
+            return returnValue;
+        }
+        return returnValue;
+    }
+
+    @PostMapping("/clients")
+    public HashMap<String, Object> inscription(@RequestBody Client client) throws Exception{
+        try {
+            BDD bdd = new BDD("vae", "vae", "vae", "postgresql");
+            try (Connection c = bdd.getConnection()) {
+                client.create(c);
+                returnValue.put("data", true);
             }
         } catch (SQLException ex) {
             Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);

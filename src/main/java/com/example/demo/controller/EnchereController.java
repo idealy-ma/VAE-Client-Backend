@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -47,7 +47,7 @@ public class EnchereController {
         returnValue.clear();
         ArrayList<Enchere> listeEnchere = new ArrayList<>();
         try {
-            BDD bdd = new BDD("postgres","root","Enchere","postgresql");
+            BDD bdd = new BDD("vae", "vae", "vae", "postgresql");
             Connection c = bdd.getConnection();
             Enchere enchere = new Enchere();
             ArrayList<Object> listeObjectEnchere = enchere.findAll(c);
@@ -57,9 +57,8 @@ public class EnchereController {
                 listeEnchere.add((Enchere)ench);
             }
             
-            if (!listeEnchere.isEmpty()) {
-                returnValue.put("data", listeEnchere);
-            }
+            
+            returnValue.put("data", listeEnchere);
             
         } catch (SQLException ex) {
             Logger.getLogger(EnchereController.class.getName()).log(Level.SEVERE, null, ex);
@@ -69,8 +68,8 @@ public class EnchereController {
         return returnValue;
     }
     
-        @GetMapping("/encheres/{idClient}")
-    public HashMap<String, Object> findEnchereByIdClient(@PathVariable int idClient) throws Exception{
+        @GetMapping("/encheres?idClient={idClient}")
+        public HashMap<String, Object> findEnchereByIdClient(@PathVariable int idClient) throws Exception{
         returnValue.clear();
         ArrayList<Enchere> listeEnchere = new ArrayList<>();
         try {
@@ -96,19 +95,11 @@ public class EnchereController {
         return returnValue;
     }
     @PostMapping("/encheres")
-    public HashMap<String, Object> addEnchere(@RequestHeader(name="nomProduit") String nomProduit,@RequestHeader(name="prixMin") double prixMin,@RequestHeader(name="description") String description,@RequestHeader(name="idCategorie") int idCategorie,@RequestHeader(name="idClient") int idClient) throws Exception{
-        System.out.println("tesssssss");
+    public HashMap<String, Object> addEnchere(@RequestBody Enchere enchere) throws Exception{
         try {
             returnValue.clear();
-            BDD bdd = new BDD("postgres", "root", "Enchere", "postgresql");
+            BDD bdd = new BDD("vae", "vae", "vae", "postgresql");
             Connection c = bdd.getConnection();
-            Enchere enchere = new Enchere();
-            enchere.setNomProduit(nomProduit);
-            enchere.setPrixMin(prixMin);
-            enchere.setDescription(description);
-            enchere.setIdCategorie(idCategorie);
-            enchere.setIdClient(idClient);
-
             enchere.create(c);
             
             c.close();
@@ -122,13 +113,12 @@ public class EnchereController {
     } 
     
     @GetMapping("/encheres/{idEnchere}")
-
     public HashMap<String, Object> findEnchereByIdEnchere(@PathVariable int idEnchere) throws Exception{
         System.out.println(idEnchere);
         returnValue.clear();
         ArrayList<Enchere> listeEnchere = new ArrayList<>();
         try {
-            BDD bdd = new BDD("postgres", "root", "enchere","postgresql");
+            BDD bdd = new BDD("vae", "vae", "vae", "postgresql");
             Connection c = bdd.getConnection();
             Enchere enchere = new Enchere();
             enchere.setIdEnchere(idEnchere);

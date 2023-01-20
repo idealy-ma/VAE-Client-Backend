@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dbmanager.connection.BDD;
@@ -23,8 +23,15 @@ import com.example.demo.util.exception.JSONException;
 @RestController
 public class CompteController {
     HashMap<String, Object> returnValue;
+    BDD bdd = null;
     
     public CompteController() {
+        try {
+            bdd = new BDD("vae", "vae", "vae", "postgresql");
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         returnValue = new HashMap<>();
     }
     
@@ -40,7 +47,6 @@ public class CompteController {
         returnValue.clear();
         ArrayList<Client> listeClient = new ArrayList<>();
         try {
-            BDD bdd = new BDD("vae", "vae", "vae", "postgresql");
             Connection c = bdd.getConnection();
             Client client = new Client();
             client.setIdClient(idClient);
@@ -64,24 +70,19 @@ public class CompteController {
     }
 
     @PostMapping("/soldes")
-    public HashMap<String, Object> addRechargement(@RequestHeader(name="idClient") int idClient, @RequestHeader(name="montant") double montant) throws Exception{
+    public HashMap<String, Object> addRechargement(@RequestBody RechargementCompte rechargementCompte) throws Exception{
         try {
             returnValue.clear();
-            BDD bdd = new BDD("vae", "vae", "vae", "postgresql");
             Connection c = bdd.getConnection();
-            RechargementCompte rechargementCompte = new RechargementCompte();
-            rechargementCompte.setIdClient(idClient);
-            rechargementCompte.setMontant(montant);
-            
+            rechargementCompte.setEtat(1);
             rechargementCompte.create(c);
-
+            returnValue.put("data", new JSONException("200", "Insertion OK"));
             c.close();
         } catch (SQLException ex) {
             Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
             returnValue.put("error", new JSONException("500", ex.getMessage()));
             return returnValue;
         } 
-        returnValue.put("response", new JSONException("200", "Insertion OK"));
         return returnValue;
     }
 }

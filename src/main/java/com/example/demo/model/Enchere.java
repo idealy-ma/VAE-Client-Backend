@@ -5,6 +5,7 @@
  */
 package com.example.demo.model;
 
+import com.example.demo.dbmanager.annotation.DBTable;
 import com.example.demo.dbmanager.annotation.PrimaryKey;
 import com.example.demo.dbmanager.bdd.object.BddObject;
 import com.example.demo.dbmanager.connection.BDD;
@@ -19,6 +20,7 @@ import java.util.logging.Logger;
  *
  * @author P14A_30_Ando
  */
+@DBTable(tableName = "v_encherevalide" )
 public class Enchere extends BddObject{
     @PrimaryKey
     private int idEnchere;
@@ -43,7 +45,7 @@ public class Enchere extends BddObject{
             this.client = new Client();
             this.client.setIdClient(this.getIdClient());
             try {
-                Connection c = new BDD("postgres","root","Enchere","postgresql").getConnection();
+                Connection c = new BDD("vae", "vae", "vae", "postgresql").getConnection();
                 this.client.find(c);
                 c.close();
             } catch (SQLException ex) {
@@ -108,7 +110,7 @@ public class Enchere extends BddObject{
             this.categorie = new Categorie();
             this.categorie.setIdCategorie(this.getIdCategorie());
             try {
-                Connection c = new BDD("postgres","root","Enchere","postgresql").getConnection();
+                Connection c = new BDD("vae", "vae", "vae", "postgresql").getConnection();
                 this.categorie.find(c);
                 c.close();
             } catch (SQLException ex) {
@@ -148,7 +150,7 @@ public class Enchere extends BddObject{
         objects.add(this.prixMin);
         objects.add(this.description);
         objects.add(this.idCategorie);
-        objects.add(this.idClient);
+        objects.add(this.idClient); 
         executeQuery(c, sql, objects);
     }
 }
