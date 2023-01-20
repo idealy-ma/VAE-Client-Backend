@@ -21,18 +21,18 @@ CREATE TABLE Client (
   prenom   varchar(75) NOT NULL, 
   email    varchar(75) NOT NULL, 
   mdp      varchar(75) NOT NULL, 
-  soldeClient double precision default 0;
+  soldeClient double precision default 0,
   PRIMARY KEY (idClient)
   );
 INSERT INTO Client(nom,prenom,email,mdp) values ('Falimanantsoa','Ando','ando@gmail.com','andolove');
 INSERT INTO Client(nom,prenom,email,mdp) values ('Ramarojaona','Miantsa','miantsa@gmail.com','miantsalove');
 INSERT INTO Client(nom,prenom,email,mdp) values ('Rabenanahary','Seta','seta@gmail.com','setalove');
 
-CREATE TABLE Commission (
-  idCommission SERIAL NOT NULL, 
-  pourcentage  int4, 
-  PRIMARY KEY (idCommission)
-  );
+  CREATE TABLE Commission (
+    idCommission SERIAL NOT NULL, 
+    pourcentage  int4, 
+    PRIMARY KEY (idCommission)
+    );
 
 CREATE TABLE Enchere (
   idEnchere            SERIAL NOT NULL, 
