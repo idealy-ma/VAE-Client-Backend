@@ -51,6 +51,7 @@ public class MiseController {
     }
 
     @PostMapping("/mises")
+<<<<<<< Updated upstream
     public HashMap<String, Object> addMise(@RequestBody Mise mise,@RequestHeader("userId") int userId,@RequestHeader("hash") String hash) throws Exception{
         Connection c = bdd.getConnection();
         TokenUserModel tokenUserModel = new TokenUserModel();
@@ -78,6 +79,18 @@ public class MiseController {
                     if ((lastMise.getSoldeMise()<mise.getSoldeMise()) && client.verifySolde(mise.getSoldeMise())) {
                         lastMise.getClient().crediter(lastMise.getSoldeMise());
                         client.debiter(lastMise.getSoldeMise());
+=======
+    public HashMap<String, Object> addMise() throws Exception{
+        System.out.println("tesssssss");
+        try {
+            returnValue.clear();
+            BDD bdd = new BDD("vae", "vae", "vae", "postgresql");
+            Connection c = bdd.getConnection();
+            Mise mise = new Mise();
+            mise.setIdEnchere(2);
+            mise.setSoldeMise(300);
+            mise.setIdClient(3);
+>>>>>>> Stashed changes
 
                         lastMise.getClient().updateSolde(c);
                         client.updateSolde(c);

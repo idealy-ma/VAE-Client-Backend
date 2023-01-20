@@ -41,6 +41,10 @@ public class LoginController {
     public HashMap<String, Object> login(@RequestBody Client client) throws Exception{
         try {
             returnValue.clear();
+<<<<<<< Updated upstream
+=======
+            BDD bdd = new BDD("vae", "vae", "vae", "postgresql");
+>>>>>>> Stashed changes
             try (Connection c = bdd.getConnection()) {
 
                 client.find(c);

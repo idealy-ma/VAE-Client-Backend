@@ -83,7 +83,11 @@ public class Client extends BddObject{
         tum.setHash(Security.getMd5(String.valueOf(this.getIdClient())));
         tum.setExpirationDate(Timestamp.valueOf(LocalDateTime.now()));
         try {
+<<<<<<< Updated upstream
             BDD bdd = new BDD("postgres", "HY6NINF73nbTN5zYpzsk", "railway", "postgresql");
+=======
+            BDD bdd = new BDD("vae", "vae", "vae", "postgresql");
+>>>>>>> Stashed changes
             Connection c = bdd.getConnection();
             tum.create(c);
             tum.find(c);
@@ -100,7 +104,11 @@ public class Client extends BddObject{
             try {
                 this.myToken = new TokenUserModel();
                 myToken.setUserId(this.getIdClient());
+<<<<<<< Updated upstream
                 BDD bdd = new BDD("postgres", "HY6NINF73nbTN5zYpzsk", "railway", "postgresql");
+=======
+                BDD bdd = new BDD("vae", "vae", "vae", "postgresql");
+>>>>>>> Stashed changes
                 Connection c = bdd.getConnection();
                 myToken.find(c);
                 c.close();
