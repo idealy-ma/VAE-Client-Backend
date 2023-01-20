@@ -26,16 +26,21 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin
 public class LoginController {
     HashMap<String, Object> returnValue;
+    BDD bdd;
     
     public LoginController() {
         returnValue = new HashMap<>();
+        try {
+            bdd = new BDD("postgres", "HY6NINF73nbTN5zYpzsk", "railway", "postgresql");
+        } catch (Exception e) {
+            e.printStackTrace();
+        } 
     }  
     
     @PostMapping("/login")
     public HashMap<String, Object> login(@RequestBody Client client) throws Exception{
         try {
             returnValue.clear();
-            new BDD("postgres", "HY6NINF73nbTN5zYpzsk", "railway", "postgresql");
             try (Connection c = bdd.getConnection()) {
 
                 client.find(c);
@@ -56,7 +61,6 @@ public class LoginController {
     @PostMapping("/clients")
     public HashMap<String, Object> inscription(@RequestBody Client client) throws Exception{
         try {
-            new BDD("postgres", "HY6NINF73nbTN5zYpzsk", "railway", "postgresql");
             try (Connection c = bdd.getConnection()) {
                 client.create(c);
                 returnValue.put("data", true);

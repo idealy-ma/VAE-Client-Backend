@@ -5,7 +5,6 @@
  */
 package com.example.demo.model;
 
-import com.example.demo.dbmanager.annotation.DBTable;
 import com.example.demo.dbmanager.annotation.PrimaryKey;
 import com.example.demo.dbmanager.bdd.object.BddObject;
 import com.example.demo.dbmanager.connection.BDD;
@@ -44,7 +43,7 @@ public class Enchere extends BddObject{
             this.client = new Client();
             this.client.setIdClient(this.getIdClient());
             try {
-                Connection c = new BDD("postgres", "HY6NINF73nbTN5zYpzsk", "railway", "postgresql");.getConnection();
+                Connection c = new BDD("postgres", "HY6NINF73nbTN5zYpzsk", "railway", "postgresql").getConnection();
                 this.client.find(c);
                 c.close();
             } catch (SQLException ex) {
