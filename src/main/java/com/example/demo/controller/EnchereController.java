@@ -59,11 +59,7 @@ public class EnchereController {
         returnValue.clear();
         ArrayList<Enchere> listeEnchere = new ArrayList<>();
         try {
-<<<<<<< Updated upstream
             
-=======
-            BDD bdd = new BDD("vae", "vae", "vae", "postgresql");
->>>>>>> Stashed changes
             Connection c = bdd.getConnection();
             Enchere enchere = new Enchere();
             ArrayList<Object> listeObjectEnchere = enchere.findAll(c);
@@ -84,7 +80,6 @@ public class EnchereController {
         return returnValue;
     }
     
-<<<<<<< Updated upstream
     @GetMapping("/encheres?idClient={idClient}")
     public HashMap<String, Object> findEnchereByIdClient(@PathVariable int idClient,@RequestHeader("userId") int userId,@RequestHeader("hash") String hash) throws Exception{
         Connection c = bdd.getConnection();
@@ -112,21 +107,6 @@ public class EnchereController {
                 Logger.getLogger(EnchereController.class.getName()).log(Level.SEVERE, null, ex);
                 returnValue.put("error", new JSONException("500", ex.getMessage()));
                 return returnValue; 
-=======
-        @GetMapping("/encheres/{idClient}")
-    public HashMap<String, Object> findEnchereByIdClient(@PathVariable int idClient) throws Exception{
-        returnValue.clear();
-        ArrayList<Enchere> listeEnchere = new ArrayList<>();
-        try {
-            BDD bdd = new BDD("vae", "vae", "vae", "postgresql");
-            Connection c = bdd.getConnection();
-            Enchere enchere = new Enchere();
-            enchere.setIdClient(idClient);
-            ArrayList<Object> listeObjectEnchere = enchere.findAll(c);
-            
-            for (Object m : listeObjectEnchere) {
-                listeEnchere.add((Enchere)m);
->>>>>>> Stashed changes
             }
         } else {
             returnValue.put("denied", "token expirer");
