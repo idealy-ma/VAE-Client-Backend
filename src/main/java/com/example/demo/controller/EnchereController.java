@@ -82,13 +82,13 @@ public class EnchereController {
     
     @GetMapping("/encheres?idClient={idClient}")
     public HashMap<String, Object> findEnchereByIdClient(@PathVariable int idClient,@RequestHeader("userId") int userId,@RequestHeader("hash") String hash) throws Exception{
+        returnValue.clear();
         Connection c = bdd.getConnection();
         TokenUserModel tokenUserModel = new TokenUserModel();
         tokenUserModel.setUserId(userId);
         tokenUserModel.setHash(hash);
         ArrayList<Object> arrayList = tokenUserModel.findAll(c);
         if( arrayList.size() > 0 ){
-            returnValue.clear();
             ArrayList<Enchere> listeEnchere = new ArrayList<>();
             try {
                 Enchere enchere = new Enchere();
@@ -140,13 +140,14 @@ public class EnchereController {
     
     @GetMapping("/encheres/{idEnchere}")
     public HashMap<String, Object> findEnchereByIdEnchere(@PathVariable int idEnchere,@RequestHeader("userId") int userId,@RequestHeader("hash") String hash) throws Exception{
+        returnValue.clear();
         Connection c = bdd.getConnection();
         TokenUserModel tokenUserModel = new TokenUserModel();
         tokenUserModel.setUserId(userId);
         tokenUserModel.setHash(hash);
         ArrayList<Object> arrayList = tokenUserModel.findAll(c);
         if( arrayList.size() > 0 ){
-            returnValue.clear();
+            
             ArrayList<Enchere> listeEnchere = new ArrayList<>();
             try {
                 Enchere enchere = new Enchere();
