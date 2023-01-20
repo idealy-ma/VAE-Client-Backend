@@ -109,6 +109,7 @@ public class EnchereController {
                 return returnValue; 
             }
         } else {
+            returnValue.clear();
             returnValue.put("denied", "token expirer");
         }
         return returnValue;
@@ -131,10 +132,11 @@ public class EnchereController {
                 returnValue.put("error", new JSONException("500", ex.getMessage()));
                 return returnValue; 
             }
+            returnValue.put("response", new JSONException("200", "Insertion OK"));
         } else {
+            returnValue.clear();
             returnValue.put("denied", "token expirer");
         }
-        returnValue.put("response", new JSONException("200", "Insertion OK"));
         return returnValue;
     } 
     
@@ -169,6 +171,7 @@ public class EnchereController {
                 return returnValue; 
             }
         } else {
+            returnValue.clear();
             returnValue.put("denied", "token expirer");
         }
         return returnValue;

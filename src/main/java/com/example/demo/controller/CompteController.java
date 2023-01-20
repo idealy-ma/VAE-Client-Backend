@@ -74,6 +74,7 @@ public class CompteController {
                 return returnValue; 
             }
         } else {
+            returnValue.clear();
             returnValue.put("denied", "token expirer");
         }
         
@@ -100,6 +101,7 @@ public class CompteController {
                 return returnValue;
             } 
         } else {
+            returnValue.clear();
             returnValue.put("denied", "token expirer");
         }
         return returnValue;

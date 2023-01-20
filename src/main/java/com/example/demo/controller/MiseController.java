@@ -99,6 +99,7 @@ public class MiseController {
                 return returnValue; 
             }
         } else {
+            returnValue.clear();
             returnValue.put("denied", "token expirer");
         }
         return returnValue;

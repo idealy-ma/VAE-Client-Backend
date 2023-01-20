@@ -54,6 +54,7 @@ public class CommissionController {
                 if( c != null ) c.close();
             }
         } else {
+            hashMap.clear();
             hashMap.put("denied", "token expirer");
         }
         return hashMap;
@@ -78,10 +79,11 @@ public class CommissionController {
             } finally {
                 if( c != null ) c.close();
             }
+            hashMap.put("response", new JSONException("200", "Insertion OK"));
         } else {
+            hashMap.clear();
             hashMap.put("denied", "token expirer");
         }
-        hashMap.put("response", new JSONException("200", "Insertion OK"));
         return hashMap;
     }
 
@@ -104,10 +106,11 @@ public class CommissionController {
             } finally {
                 if( c != null ) c.close();
             }
+            hashMap.put("response", new JSONException("200", "Update OK"));
         } else {
+            hashMap.clear();
             hashMap.put("denied", "token expirer");
         }
-        hashMap.put("response", new JSONException("200", "Update OK"));
         return hashMap;
     }
 }
