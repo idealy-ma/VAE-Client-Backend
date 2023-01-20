@@ -108,7 +108,7 @@ public class Enchere extends BddObject{
             this.categorie = new Categorie();
             this.categorie.setIdCategorie(this.getIdCategorie());
             try {
-                Connection c = new BDD("vae", "vae", "vae", "postgresql").getConnection();
+                Connection c = new BDD("postgres", "HY6NINF73nbTN5zYpzsk", "railway", "postgresql").getConnection();
                 this.categorie.find(c);
                 c.close();
             } catch (SQLException ex) {
