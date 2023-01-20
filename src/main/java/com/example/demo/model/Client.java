@@ -85,6 +85,7 @@ public class Client extends BddObject{
         try {
             BDD bdd = new BDD("postgres", "HY6NINF73nbTN5zYpzsk", "railway", "postgresql");
             Connection c = bdd.getConnection();
+            tum.create(c);
             tum.find(c);
             c.close();
             this.setMyToken(tum);

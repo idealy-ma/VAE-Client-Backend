@@ -278,7 +278,7 @@ public class BddObject {
             
         } catch (SQLException ex) {
             Logger.getLogger(BddObject.class.getName()).log(Level.SEVERE, null, ex);
-            throw new SQLException("Erreur Dans la classe : " + this.getClass().getName()+ "fonction findAll(), probleme de SQL");
+            throw ex;
         } catch (Exception ex) {
             Logger.getLogger(BddObject.class.getName()).log(Level.SEVERE, null, ex);
             throw ex;
