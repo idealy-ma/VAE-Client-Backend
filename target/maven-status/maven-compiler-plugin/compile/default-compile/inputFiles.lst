@@ -1,7 +1,6 @@
 C:\Users\User_HP\Documents\GitHub\VAE-Client-Backend\src\main\java\com\example\demo\model\Mise.java
 C:\Users\User_HP\Documents\GitHub\VAE-Client-Backend\src\main\java\com\example\demo\controller\MiseController.java
 C:\Users\User_HP\Documents\GitHub\VAE-Client-Backend\src\main\java\com\example\demo\model\PhotoEnchere.java
-<<<<<<< Updated upstream
 C:\Users\User_HP\Documents\GitHub\VAE-Client-Backend\src\main\java\com\example\demo\model\RechargementCompte.java
 C:\Users\User_HP\Documents\GitHub\VAE-Client-Backend\src\main\java\com\example\demo\dbmanager\annotation\PrimaryKey.java
 C:\Users\User_HP\Documents\GitHub\VAE-Client-Backend\src\main\java\com\example\demo\dbmanager\connection\BDD.java
@@ -12,22 +11,12 @@ C:\Users\User_HP\Documents\GitHub\VAE-Client-Backend\src\main\java\com\example\d
 C:\Users\User_HP\Documents\GitHub\VAE-Client-Backend\src\main\java\com\example\demo\controller\CommissionController.java
 C:\Users\User_HP\Documents\GitHub\VAE-Client-Backend\src\main\java\com\example\demo\model\Categorie.java
 C:\Users\User_HP\Documents\GitHub\VAE-Client-Backend\src\main\java\com\example\demo\model\EnchereMises.java
-=======
-C:\Users\User_HP\Documents\GitHub\VAE-Client-Backend\src\main\java\com\example\demo\dbmanager\annotation\PrimaryKey.java
-C:\Users\User_HP\Documents\GitHub\VAE-Client-Backend\src\main\java\com\example\demo\dbmanager\connection\BDD.java
-C:\Users\User_HP\Documents\GitHub\VAE-Client-Backend\src\main\java\com\example\demo\dbmanager\annotation\DBTable.java
-C:\Users\User_HP\Documents\GitHub\VAE-Client-Backend\src\main\java\com\example\demo\model\Client.java
-C:\Users\User_HP\Documents\GitHub\VAE-Client-Backend\src\main\java\com\example\demo\model\Categorie.java
->>>>>>> Stashed changes
 C:\Users\User_HP\Documents\GitHub\VAE-Client-Backend\src\main\java\com\example\demo\controller\EnchereController.java
 C:\Users\User_HP\Documents\GitHub\VAE-Client-Backend\src\main\java\com\example\demo\model\Enchere.java
 C:\Users\User_HP\Documents\GitHub\VAE-Client-Backend\src\main\java\com\example\demo\util\security\TokenUserModel.java
 C:\Users\User_HP\Documents\GitHub\VAE-Client-Backend\src\main\java\com\example\demo\util\exception\JSONException.java
 C:\Users\User_HP\Documents\GitHub\VAE-Client-Backend\src\main\java\com\example\demo\controller\LoginController.java
-<<<<<<< Updated upstream
 C:\Users\User_HP\Documents\GitHub\VAE-Client-Backend\src\main\java\com\example\demo\model\Commission.java
-=======
->>>>>>> Stashed changes
 C:\Users\User_HP\Documents\GitHub\VAE-Client-Backend\src\main\java\com\example\demo\dbmanager\bdd\object\BddObject.java
 C:\Users\User_HP\Documents\GitHub\VAE-Client-Backend\src\main\java\com\example\demo\DemoApplication.java
 C:\Users\User_HP\Documents\GitHub\VAE-Client-Backend\src\main\java\com\example\demo\util\security\Security.java

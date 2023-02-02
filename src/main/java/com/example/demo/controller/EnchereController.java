@@ -6,8 +6,6 @@
 package com.example.demo.controller;
 
 import com.example.demo.dbmanager.connection.BDD;
-import com.example.demo.model.Client;
-import com.example.demo.model.ClientEncheres;
 import com.example.demo.model.Enchere;
 import com.example.demo.util.exception.JSONException;
 import com.example.demo.util.security.TokenUserModel;
@@ -88,7 +86,7 @@ public class EnchereController {
         tokenUserModel.setUserId(userId);
         tokenUserModel.setHash(hash);
         ArrayList<Object> arrayList = tokenUserModel.findAll(c);
-        if( arrayList.size() > 0 ){
+        if( !arrayList.isEmpty() ){
             ArrayList<Enchere> listeEnchere = new ArrayList<>();
             try {
                 Enchere enchere = new Enchere();
@@ -121,7 +119,7 @@ public class EnchereController {
         tokenUserModel.setUserId(userId);
         tokenUserModel.setHash(hash);
         ArrayList<Object> arrayList = tokenUserModel.findAll(c);
-        if( arrayList.size() > 0 ){
+        if( !arrayList.isEmpty() ){
             try {
                 returnValue.clear();
                 enchere.create(c);
@@ -148,7 +146,7 @@ public class EnchereController {
         tokenUserModel.setUserId(userId);
         tokenUserModel.setHash(hash);
         ArrayList<Object> arrayList = tokenUserModel.findAll(c);
-        if( arrayList.size() > 0 ){
+        if( !arrayList.isEmpty() ){
             
             ArrayList<Enchere> listeEnchere = new ArrayList<>();
             try {
@@ -180,11 +178,25 @@ public class EnchereController {
 
     @GetMapping("/historiques")
     public HashMap<String , Object> getHistorique(@RequestParam("idClient") int idClient) throws Exception {
+        return new HashMap<>();
+    }
+
+    @GetMapping("/recherche:mobile")
+    public HashMap<String , Object> recherche(@RequestParam String motCle) throws Exception {
         HashMap<String , Object> hashMap = new HashMap<>();
+        Connection c = bdd.getConnection();
+        ArrayList<Enchere> encheres = new ArrayList<>();
         try {
-            // Connection c = bdd.getConnection();
-            /*ClientEncheres clientEncheres = new ClientEncheres();
-            clientEncheres.setIdClient(idClient);*/
+            ArrayList<Object> listeEnchere = new Enchere().recherche(c,motCle);
+                
+                for (Object object : listeEnchere) {
+                    encheres.add((Enchere) object);
+                }
+
+                if (!encheres.isEmpty()) {
+                    hashMap.put("data", encheres);
+                }
+                
         } catch (Exception ex) {
             Logger.getLogger(EnchereController.class.getName()).log(Level.SEVERE, null, ex);
             hashMap.put("error", new JSONException("500", ex.getMessage()));

@@ -152,4 +152,9 @@ public class Enchere extends BddObject{
         objects.add(this.idClient); 
         executeQuery(c, sql, objects);
     }
+
+    public ArrayList<Object> recherche(Connection c,String motCle) throws Exception {
+        String sql = "select * from enchere where (nomproduit like '%"+motCle+"%' or description like '%"+motCle+"%')";
+        return executeResultedQuery(c, sql, null);
+    }
 }
