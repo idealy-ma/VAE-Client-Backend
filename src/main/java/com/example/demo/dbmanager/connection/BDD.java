@@ -67,7 +67,7 @@ public final class BDD {
     public Connection getConnection() throws SQLException{
         Connection c = null;
         if(this.getDatabaseType().equalsIgnoreCase("postgresql")){
-            c = DriverManager.getConnection("jdbc:postgresql://containers-us-west-145.railway.app:6046/"+this.getDatabaseName(),this.getUser(),this.getMdp());
+            c = DriverManager.getConnection("jdbc:postgresql:5432//containers-us-west-145.railway.app:6046/"+this.getDatabaseName(),this.getUser(),this.getMdp());
         } else if(this.getDatabaseType().equalsIgnoreCase("mssql")) {
             try {
                 Class.forName("com.microsoft.sqlserver.jdbc.SQLServerConnection");
@@ -77,5 +77,5 @@ public final class BDD {
             c = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;encrypt=false;DatabaseName="+this.getDatabaseName(),this.getUser(),this.getMdp());
         }
         return c;
-    }
+    }/* containers-us-west-145.railway.app:6046 */
 }

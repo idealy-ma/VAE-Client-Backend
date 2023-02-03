@@ -6,8 +6,6 @@
 package com.example.demo.controller;
 
 import com.example.demo.dbmanager.connection.BDD;
-import com.example.demo.model.Client;
-import com.example.demo.model.ClientEncheres;
 import com.example.demo.model.Enchere;
 import com.example.demo.model.PhotoEnchere;
 import com.example.demo.util.exception.JSONException;
@@ -59,9 +57,9 @@ public class EnchereController {
     public HashMap<String, Object> findEnchere() throws Exception{
         returnValue.clear();
         ArrayList<Enchere> listeEnchere = new ArrayList<>();
+        Connection c = bdd.getConnection();
         try {
             
-            Connection c = bdd.getConnection();
             Enchere enchere = new Enchere();
             ArrayList<Object> listeObjectEnchere = enchere.findAll(c);
             
@@ -81,6 +79,8 @@ public class EnchereController {
             Logger.getLogger(EnchereController.class.getName()).log(Level.SEVERE, null, ex);
             returnValue.put("error", new JSONException("500", ex.getMessage()));
             return returnValue; 
+        } finally {
+            if(c!=null)c.close();
         }
         return returnValue;
     }
@@ -93,29 +93,13 @@ public class EnchereController {
         tokenUserModel.setUserId(userId);
         tokenUserModel.setHash(hash);
         ArrayList<Object> arrayList = tokenUserModel.findAll(c);
-        if( !arrayList.isEmpty() ){
-            ArrayList<Enchere> listeEnchere = new ArrayList<>();
-            try {
-                Enchere enchere = new Enchere();
-                enchere.setIdClient(idClient);
-                ArrayList<Object> listeObjectEnchere = enchere.findAll(c);
-                
-                for (Object m : listeObjectEnchere) {
-                    listeEnchere.add((Enchere)m);
-                }
-                
-                if (!listeEnchere.isEmpty()) {
-                    returnValue.put("data", listeEnchere);
-                }
-                
-            } catch (SQLException ex) {
-                Logger.getLogger(EnchereController.class.getName()).log(Level.SEVERE, null, ex);
-                returnValue.put("error", new JSONException("500", ex.getMessage()));
-                return returnValue; 
-            }
-        } else {
-            returnValue.clear();
-            returnValue.put("denied", "token expirer");
+        try {
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            if(c!=null)c.close();
         }
         return returnValue; 
     }
@@ -126,33 +110,39 @@ public class EnchereController {
         tokenUserModel.setUserId(userId);
         tokenUserModel.setHash(hash);
         ArrayList<Object> arrayList = tokenUserModel.findAll(c);
-        if( !arrayList.isEmpty() ){
-            try {
-                returnValue.clear();
-                if( enchere.getEtat() == 1 ){
-                    enchere.create(c);
-                    Enchere enchere1 = enchere.getEnd(c);
-                    PhotoEnchere photoEnchere = new PhotoEnchere();
-                    photoEnchere.setIdEnchere(enchere1.getIdEnchere());
-                    photoEnchere.setPhoto(enchere.getPhotos());
-                    photoEnchere.create(c);
-                } else {
-                    Enchere enchere1 = enchere.getEnd(c);
-                    PhotoEnchere photoEnchere = new PhotoEnchere();
-                    photoEnchere.setIdEnchere(enchere1.getIdEnchere());
-                    photoEnchere.setPhoto(enchere.getPhotos());
-                    photoEnchere.create(c);
+        try {
+            if( !arrayList.isEmpty() ){
+                try {
+                    returnValue.clear();
+                    if( enchere.getEtat() == 1 ){
+                        enchere.create(c);
+                        Enchere enchere1 = enchere.getEnd(c);
+                        PhotoEnchere photoEnchere = new PhotoEnchere();
+                        photoEnchere.setIdEnchere(enchere1.getIdEnchere());
+                        photoEnchere.setPhoto(enchere.getPhotos());
+                        photoEnchere.create(c);
+                    } else {
+                        Enchere enchere1 = enchere.getEnd(c);
+                        PhotoEnchere photoEnchere = new PhotoEnchere();
+                        photoEnchere.setIdEnchere(enchere1.getIdEnchere());
+                        photoEnchere.setPhoto(enchere.getPhotos());
+                        photoEnchere.create(c);
+                    }
+                    c.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(EnchereController.class.getName()).log(Level.SEVERE, null, ex);
+                    returnValue.put("error", new JSONException("500", ex.getMessage()));
+                    return returnValue; 
                 }
-                c.close();
-            } catch (SQLException ex) {
-                Logger.getLogger(EnchereController.class.getName()).log(Level.SEVERE, null, ex);
-                returnValue.put("error", new JSONException("500", ex.getMessage()));
-                return returnValue; 
+                returnValue.put("response", new JSONException("200", "Insertion OK"));
+            } else {
+                returnValue.clear();
+                returnValue.put("denied", "token expirer");
             }
-            returnValue.put("response", new JSONException("200", "Insertion OK"));
-        } else {
-            returnValue.clear();
-            returnValue.put("denied", "token expirer");
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if(c!=null)c.close();
         }
         return returnValue;
     } 
@@ -165,31 +155,41 @@ public class EnchereController {
         tokenUserModel.setUserId(userId);
         tokenUserModel.setHash(hash);
         ArrayList<Object> arrayList = tokenUserModel.findAll(c);
-        if( !arrayList.isEmpty() ){
+        try {
+            if( !arrayList.isEmpty() ){
             
-            ArrayList<Enchere> listeEnchere = new ArrayList<>();
-            try {
-                Enchere enchere = new Enchere();
-                enchere.setIdEnchere(idEnchere);
-
-                ArrayList<Object> listeObjectEnchere = enchere.findAll(c);
-                
-                for (Object encher : listeObjectEnchere) {
-                    listeEnchere.add((Enchere)encher);
+                ArrayList<Enchere> listeEnchere = new ArrayList<>();
+                try {
+                    Enchere enchere = new Enchere();
+                    enchere.setIdEnchere(idEnchere);
+    
+                    ArrayList<Object> listeObjectEnchere = enchere.findAll(c);
+                    
+                    for (Object encher : listeObjectEnchere) {
+                        Enchere enchere1 = ((Enchere)encher);
+                        PhotoEnchere photoEnchere = new PhotoEnchere();
+                        photoEnchere.setIdEnchere(enchere1.getIdEnchere());
+                        enchere1.setLesSary(photoEnchere.getLesSary());
+                        listeEnchere.add((Enchere)encher);
+                    }
+                    
+                    if (!listeEnchere.isEmpty()) {
+                        returnValue.put("data", listeEnchere);
+                    }
+                    
+                } catch (SQLException ex) {
+                    Logger.getLogger(EnchereController.class.getName()).log(Level.SEVERE, null, ex);
+                    returnValue.put("error", new JSONException("500", ex.getMessage()));
+                    return returnValue; 
                 }
-                
-                if (!listeEnchere.isEmpty()) {
-                    returnValue.put("data", listeEnchere);
-                }
-                
-            } catch (SQLException ex) {
-                Logger.getLogger(EnchereController.class.getName()).log(Level.SEVERE, null, ex);
-                returnValue.put("error", new JSONException("500", ex.getMessage()));
-                return returnValue; 
+            } else {
+                returnValue.clear();
+                returnValue.put("denied", "token expirer");
             }
-        } else {
-            returnValue.clear();
-            returnValue.put("denied", "token expirer");
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if(c!=null)c.close();
         }
         return returnValue;
     }

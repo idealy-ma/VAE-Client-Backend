@@ -39,9 +39,9 @@ public class LoginController {
     
     @PostMapping("/login")
     public HashMap<String, Object> login(@RequestBody Client client) throws Exception{
+        Connection c = bdd.getConnection();
         try {
             returnValue.clear();
-            try (Connection c = bdd.getConnection()) {
 
                 client.find(c);
                 if(client.getIdClient()>0){
@@ -49,26 +49,28 @@ public class LoginController {
                 } else {
                     returnValue.put("error", new JSONException("403", "User not found"));
                 }
-            }
         } catch (SQLException ex) {
             Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
             returnValue.put("error", new JSONException("500", ex.getMessage()));
             return returnValue;
+        } finally {
+            if( c!=null )c.close();
         }
         return returnValue;
     }
 
     @PostMapping("/clients")
     public HashMap<String, Object> inscription(@RequestBody Client client) throws Exception{
+        Connection c = bdd.getConnection();
         try {
-            try (Connection c = bdd.getConnection()) {
                 client.create(c);
                 returnValue.put("data", true);
-            }
         } catch (SQLException ex) {
             Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
             returnValue.put("error", new JSONException("500", ex.getMessage()));
             return returnValue;
+        } finally {
+            if( c!=null )c.close();
         }
         returnValue.put("response", new JSONException("200", "Insertion OK"));
         return returnValue;

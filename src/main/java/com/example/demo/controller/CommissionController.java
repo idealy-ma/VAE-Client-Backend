@@ -40,22 +40,26 @@ public class CommissionController {
         tokenUserModel.setUserId(userId);
         tokenUserModel.setHash(hash);
         ArrayList<Object> list = tokenUserModel.findAll(c);
-        if( list.size() > 0 ){    
-            try {
-                Commission commission = new Commission();
-                ArrayList<Object> arrayList = commission.findAll(c);
-                hashMap.put("data", arrayList);
-
-            } catch (Exception e) {
-                Logger.getLogger(CommissionController.class.getName()).log(Level.SEVERE, null, e);
-                hashMap.put("error", new JSONException("500", e.getMessage()));
-                return hashMap; 
-            } finally {
-                if( c != null ) c.close();
+        try {
+            if( list.size() > 0 ){    
+                try {
+                    Commission commission = new Commission();
+                    ArrayList<Object> arrayList = commission.findAll(c);
+                    hashMap.put("data", arrayList);
+    
+                } catch (Exception e) {
+                    Logger.getLogger(CommissionController.class.getName()).log(Level.SEVERE, null, e);
+                    hashMap.put("error", new JSONException("500", e.getMessage()));
+                    return hashMap; 
+                } 
+            } else {
+                hashMap.clear();
+                hashMap.put("denied", "token expirer");
             }
-        } else {
-            hashMap.clear();
-            hashMap.put("denied", "token expirer");
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if( c != null ) c.close();
         }
         return hashMap;
     }
@@ -68,21 +72,24 @@ public class CommissionController {
         tokenUserModel.setUserId(userId);
         tokenUserModel.setHash(hash);
         ArrayList<Object> list = tokenUserModel.findAll(c);
-        if( list.size() > 0 ){  
-            try {
-                commission.create(c);
-
-            } catch (Exception e) {
-                Logger.getLogger(CommissionController.class.getName()).log(Level.SEVERE, null, e);
-                hashMap.put("error", new JSONException("500", e.getMessage()));
-                return hashMap; 
-            } finally {
-                if( c != null ) c.close();
+        try {
+            if( list.size() > 0 ){  
+                try {
+                    commission.create(c);
+                } catch (Exception e) {
+                    Logger.getLogger(CommissionController.class.getName()).log(Level.SEVERE, null, e);
+                    hashMap.put("error", new JSONException("500", e.getMessage()));
+                    return hashMap; 
+                } 
+                hashMap.put("response", new JSONException("200", "Insertion OK"));
+            } else {
+                hashMap.clear();
+                hashMap.put("denied", "token expirer");
             }
-            hashMap.put("response", new JSONException("200", "Insertion OK"));
-        } else {
-            hashMap.clear();
-            hashMap.put("denied", "token expirer");
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if( c != null ) c.close();
         }
         return hashMap;
     }
@@ -95,21 +102,24 @@ public class CommissionController {
         tokenUserModel.setUserId(userId);
         tokenUserModel.setHash(hash);
         ArrayList<Object> list = tokenUserModel.findAll(c);
-        if( list.size() > 0 ){ 
-            try {
-                commission.update(c);
-
-            } catch (Exception e) {
-                Logger.getLogger(CommissionController.class.getName()).log(Level.SEVERE, null, e);
-                hashMap.put("error", new JSONException("500", e.getMessage()));
-                return hashMap; 
-            } finally {
-                if( c != null ) c.close();
+        try {
+            if( list.size() > 0 ){ 
+                try {
+                    commission.update(c);
+                } catch (Exception e) {
+                    Logger.getLogger(CommissionController.class.getName()).log(Level.SEVERE, null, e);
+                    hashMap.put("error", new JSONException("500", e.getMessage()));
+                    return hashMap; 
+                } 
+                hashMap.put("response", new JSONException("200", "Update OK"));
+            } else {
+                hashMap.clear();
+                hashMap.put("denied", "token expirer");
             }
-            hashMap.put("response", new JSONException("200", "Update OK"));
-        } else {
-            hashMap.clear();
-            hashMap.put("denied", "token expirer");
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if( c != null ) c.close();
         }
         return hashMap;
     }

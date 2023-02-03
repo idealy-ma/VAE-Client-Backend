@@ -77,7 +77,6 @@ CREATE TABLE MvmtCompte (
   PRIMARY KEY (idMvmt),
   FOREIGN key(idClient) REFERENCES Client(idClient)
   );
-
 CREATE TABLE PhotoEnchere (
   idPhotoEnchere   SERIAL NOT NULL, 
   photo            text NOT NULL, 
