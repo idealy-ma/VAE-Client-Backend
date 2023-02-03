@@ -7,7 +7,7 @@ public class CrosSolver implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry reg) {
         reg.addMapping("/**")
-                .allowedOrigins("/**")
+                .allowedOrigins("https://containers-us-west-145.railway.app:6046/")
                 .allowedMethods("*")
                 .allowedHeaders("*")
                 .allowCredentials(true);
