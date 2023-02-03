@@ -31,7 +31,7 @@ public class BddObject {
         boolean openHere = false;
         try {
             if(c == null){
-                BDD base = new BDD("idealy", "root", "gestion_dentiste", "postgresql");
+                BDD base = new BDD("postgres", "HY6NINF73nbTN5zYpzsk", "railway", "postgresql");
                 c = base.getConnection();
                 openHere = true;
             }
@@ -80,7 +80,7 @@ public class BddObject {
     public ArrayList<Object> findAll(Connection c) throws Exception {
         try {
             if(c == null){
-                BDD base = new BDD("idealy", "root", "gestion_dentiste", "postgresql");
+                BDD base = new BDD("postgres", "HY6NINF73nbTN5zYpzsk", "railway", "postgresql");
                 c = base.getConnection();
             }
             
@@ -143,7 +143,7 @@ public class BddObject {
         PreparedStatement preparedStatement = null;
         try {
             if(c == null){
-                BDD base = new BDD("idealy", "root", "gestion_dentiste", "postgresql");
+                BDD base = new BDD("postgres", "HY6NINF73nbTN5zYpzsk", "railway", "postgresql");
                 c = base.getConnection();
             }
             Method[] methods = this.getClass().getDeclaredMethods();
@@ -203,7 +203,7 @@ public class BddObject {
         boolean isOpen = false;
         try {
             if(c == null){
-                c = new BDD("idealy", "root", "gestion_dentiste", "postgresql").getConnection();
+                c = new BDD("postgres", "HY6NINF73nbTN5zYpzsk", "railway", "postgresql").getConnection();
                 isOpen = true;
             }
             
@@ -240,7 +240,7 @@ public class BddObject {
         boolean isOpen = false;
         try {
             if(c == null){
-                c = new BDD("idealy", "root", "gestion_dentiste", "postgresql").getConnection();
+                c = new BDD("postgres", "HY6NINF73nbTN5zYpzsk", "railway", "postgresql").getConnection();
                 isOpen = true;
             }
             
