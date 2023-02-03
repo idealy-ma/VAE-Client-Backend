@@ -50,32 +50,38 @@ public class CompteController {
         tokenUserModel.setUserId(userId);
         tokenUserModel.setHash(hash);
         ArrayList<Object> arrayList = tokenUserModel.findAll(c);
-        if( arrayList.size() > 0 ){
-            returnValue.clear();
-            ArrayList<Client> listeClient = new ArrayList<>();
-            try {
-                
-                Client client = new Client();
-                client.setIdClient(idClient);
-                ArrayList<Object> listeObjectClient = client.findAll(c);
-                
-                
-                for (Object ench : listeObjectClient) {
-                    listeClient.add((Client)ench);
+        try {
+            if( arrayList.size() > 0 ){
+                returnValue.clear();
+                ArrayList<Client> listeClient = new ArrayList<>();
+                try {
+                    
+                    Client client = new Client();
+                    client.setIdClient(idClient);
+                    ArrayList<Object> listeObjectClient = client.findAll(c);
+                    
+                    
+                    for (Object ench : listeObjectClient) {
+                        listeClient.add((Client)ench);
+                    }
+                    
+                    if (!listeClient.isEmpty()) {
+                        returnValue.put("data", listeClient);
+                    }
+                    
+                } catch (SQLException ex) {
+                    Logger.getLogger(CompteController.class.getName()).log(Level.SEVERE, null, ex);
+                    returnValue.put("error", new JSONException("500", ex.getMessage()));
+                    return returnValue; 
                 }
-                
-                if (!listeClient.isEmpty()) {
-                    returnValue.put("data", listeClient);
-                }
-                
-            } catch (SQLException ex) {
-                Logger.getLogger(CompteController.class.getName()).log(Level.SEVERE, null, ex);
-                returnValue.put("error", new JSONException("500", ex.getMessage()));
-                return returnValue; 
+            } else {
+                returnValue.clear();
+                returnValue.put("denied", "token expirer");
             }
-        } else {
-            returnValue.clear();
-            returnValue.put("denied", "token expirer");
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if(c!=null)c.close();
         }
         
         return returnValue;
@@ -88,21 +94,27 @@ public class CompteController {
         tokenUserModel.setUserId(userId);
         tokenUserModel.setHash(hash);
         ArrayList<Object> arrayList = tokenUserModel.findAll(c);
-        if( arrayList.size() > 0 ){
-            try {
+        try {
+            if( arrayList.size() > 0 ){
+                try {
+                    returnValue.clear();
+                    rechargementCompte.setEtat(1);
+                    rechargementCompte.create(c);
+                    returnValue.put("data", new JSONException("200", "Insertion OK"));
+                    c.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+                    returnValue.put("error", new JSONException("500", ex.getMessage()));
+                    return returnValue;
+                } 
+            } else {
                 returnValue.clear();
-                rechargementCompte.setEtat(1);
-                rechargementCompte.create(c);
-                returnValue.put("data", new JSONException("200", "Insertion OK"));
-                c.close();
-            } catch (SQLException ex) {
-                Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
-                returnValue.put("error", new JSONException("500", ex.getMessage()));
-                return returnValue;
-            } 
-        } else {
-            returnValue.clear();
-            returnValue.put("denied", "token expirer");
+                returnValue.put("denied", "token expirer");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if(c!=null)c.close();
         }
         return returnValue;
     }
@@ -111,8 +123,8 @@ public class CompteController {
     public HashMap<String, Object> findRechargementByIdClient(@PathVariable int idClient) throws Exception{
         returnValue.clear();
         ArrayList<RechargementCompte> listeRechargement = new ArrayList<>();
+        Connection c = bdd.getConnection();
         try {
-            Connection c = bdd.getConnection();
             RechargementCompte rechargementCompte = new RechargementCompte();
             rechargementCompte.setIdClient(idClient);
             ArrayList<Object> listeObjectRechargement = rechargementCompte.findAll(c);
@@ -131,6 +143,8 @@ public class CompteController {
             Logger.getLogger(CompteController.class.getName()).log(Level.SEVERE, null, ex);
             returnValue.put("error", new JSONException("500", ex.getMessage()));
             return returnValue; 
+        } finally {
+            if(c!=null)c.close();
         }
         return returnValue;
     }

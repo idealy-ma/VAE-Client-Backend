@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dbmanager.connection.BDD;
 import com.example.demo.model.Categorie;
-import com.example.demo.util.Notifier;
 import com.example.demo.util.exception.JSONException;
 
 @CrossOrigin
@@ -40,9 +39,6 @@ public class GlobalController {
     }
     @GetMapping("/categories")
     public HashMap<String, Object> findCategorie() throws Exception{
-        /*Notifier notifier = new Notifier();
-        notifier.setRegistrationToken("eg4AdieSTGSWlOWCRWIODb:APA91bHrhi5j9Xv4clqYmW9XMPngyT_cMjGlAF7fN93ZzHYHo7nlZgLKe_ns_LXfbQmmAIZBuqlkmCJVXwwGI6xA6wgVyMaT1S69OuAruYNOq9bb4OIE-mkbLK5rIZIEL0Ll2ZQnlzia");
-        notifier.sendMessage("cetegories", "Maka liste Categorie");*/
         Connection c = bdd.getConnection();
         returnValue.clear();
         ArrayList<Categorie> listeCategorie = new ArrayList<>();
@@ -60,6 +56,8 @@ public class GlobalController {
                 Logger.getLogger(CompteController.class.getName()).log(Level.SEVERE, null, ex);
                 returnValue.put("error", new JSONException("500", ex.getMessage()));
                 return returnValue; 
+            } finally {
+                if( c!=null )c.close();
             }
         return returnValue;
     }
