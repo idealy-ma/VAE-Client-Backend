@@ -80,7 +80,7 @@ CREATE TABLE MvmtCompte (
 
 CREATE TABLE PhotoEnchere (
   idPhotoEnchere   SERIAL NOT NULL, 
-  photo            varchar(255) NOT NULL, 
+  photo            text NOT NULL, 
   idEnchere int4 NOT NULL, 
   PRIMARY KEY (idPhotoEnchere),
   FOREIGN key(idEnchere) REFERENCES Enchere(idEnchere)
