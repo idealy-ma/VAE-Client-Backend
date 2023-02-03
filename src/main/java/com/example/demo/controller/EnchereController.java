@@ -57,13 +57,11 @@ public class EnchereController {
     public HashMap<String, Object> findEnchere() throws Exception{
         returnValue.clear();
         ArrayList<Enchere> listeEnchere = new ArrayList<>();
-        Connection c = bdd.getConnection();
+        Connection c = null;
         try {
-            
+            c = bdd.getConnection();
             Enchere enchere = new Enchere();
             ArrayList<Object> listeObjectEnchere = enchere.findAll(c);
-            
-            
             for (Object ench : listeObjectEnchere) {
                 Enchere enchere1 = ((Enchere)ench);
                 PhotoEnchere photoEnchere = new PhotoEnchere();
@@ -105,12 +103,13 @@ public class EnchereController {
     }
     @PostMapping("/encheres")
     public HashMap<String, Object> addEnchere(@RequestBody Enchere enchere,@RequestHeader("userId") int userId,@RequestHeader("hash") String hash) throws Exception{
-        Connection c = bdd.getConnection();
+        Connection c = null;
         TokenUserModel tokenUserModel = new TokenUserModel();
         tokenUserModel.setUserId(userId);
         tokenUserModel.setHash(hash);
         ArrayList<Object> arrayList = tokenUserModel.findAll(c);
         try {
+            c = bdd.getConnection();
             if( !arrayList.isEmpty() ){
                 try {
                     returnValue.clear();
@@ -128,7 +127,6 @@ public class EnchereController {
                         photoEnchere.setPhoto(enchere.getPhotos());
                         photoEnchere.create(c);
                     }
-                    c.close();
                 } catch (SQLException ex) {
                     Logger.getLogger(EnchereController.class.getName()).log(Level.SEVERE, null, ex);
                     returnValue.put("error", new JSONException("500", ex.getMessage()));
@@ -150,12 +148,13 @@ public class EnchereController {
     @GetMapping("/encheres/{idEnchere}")
     public HashMap<String, Object> findEnchereByIdEnchere(@PathVariable int idEnchere,@RequestHeader("userId") int userId,@RequestHeader("hash") String hash) throws Exception{
         returnValue.clear();
-        Connection c = bdd.getConnection();
+        Connection c = null;
         TokenUserModel tokenUserModel = new TokenUserModel();
         tokenUserModel.setUserId(userId);
         tokenUserModel.setHash(hash);
         ArrayList<Object> arrayList = tokenUserModel.findAll(c);
         try {
+            c = bdd.getConnection();
             if( !arrayList.isEmpty() ){
             
                 ArrayList<Enchere> listeEnchere = new ArrayList<>();

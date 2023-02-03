@@ -35,13 +35,14 @@ public class CommissionController {
     @GetMapping("/commissions")
     public HashMap<String ,Object> getCommission(@RequestHeader("userId") int userId,@RequestHeader("hash") String hash) throws Exception {
         HashMap<String ,Object> hashMap = new HashMap<>();
-        Connection c = bdd.getConnection();
+        Connection c = null;
         TokenUserModel tokenUserModel = new TokenUserModel();
         tokenUserModel.setUserId(userId);
         tokenUserModel.setHash(hash);
         ArrayList<Object> list = tokenUserModel.findAll(c);
         try {
-            if( list.size() > 0 ){    
+            c = bdd.getConnection();
+            if( !list.isEmpty() ){    
                 try {
                     Commission commission = new Commission();
                     ArrayList<Object> arrayList = commission.findAll(c);
@@ -67,13 +68,14 @@ public class CommissionController {
     @PostMapping("/commissions")
     public HashMap<String ,Object> saveCommission(@RequestBody Commission commission,@RequestHeader("userId") int userId,@RequestHeader("hash") String hash) throws Exception {
         HashMap<String ,Object> hashMap = new HashMap<>();
-        Connection c = bdd.getConnection();
+        Connection c = null;
         TokenUserModel tokenUserModel = new TokenUserModel();
         tokenUserModel.setUserId(userId);
         tokenUserModel.setHash(hash);
         ArrayList<Object> list = tokenUserModel.findAll(c);
         try {
-            if( list.size() > 0 ){  
+            c = bdd.getConnection();
+            if( !list.isEmpty() ){  
                 try {
                     commission.create(c);
                 } catch (Exception e) {
@@ -97,13 +99,14 @@ public class CommissionController {
     @PutMapping("/commissions")
     public HashMap<String ,Object> updateCommission(@RequestBody Commission commission,@RequestHeader("userId") int userId,@RequestHeader("hash") String hash) throws Exception {
         HashMap<String ,Object> hashMap = new HashMap<>();
-        Connection c = bdd.getConnection();
+        Connection c = null;
         TokenUserModel tokenUserModel = new TokenUserModel();
         tokenUserModel.setUserId(userId);
         tokenUserModel.setHash(hash);
         ArrayList<Object> list = tokenUserModel.findAll(c);
         try {
-            if( list.size() > 0 ){ 
+            c = bdd.getConnection();
+            if( !list.isEmpty() ){ 
                 try {
                     commission.update(c);
                 } catch (Exception e) {

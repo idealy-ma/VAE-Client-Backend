@@ -57,7 +57,7 @@ public class MiseController {
         tokenUserModel.setUserId(userId);
         tokenUserModel.setHash(hash);
         ArrayList<Object> arrayList = tokenUserModel.findAll(c);
-        if( arrayList.size() > 0 ){
+        if( !arrayList.isEmpty() ){
             try {
                 returnValue.clear();
                 c.setAutoCommit(false);
@@ -91,7 +91,6 @@ public class MiseController {
                 mise.create(c);
 
                 c.commit();
-                c.close();
                 returnValue.put("data", new JSONException("200", "insertion ok"));
             } catch (SQLException ex) {
                 Logger.getLogger(MiseController.class.getName()).log(Level.SEVERE, null, ex);

@@ -39,8 +39,9 @@ public class LoginController {
     
     @PostMapping("/login")
     public HashMap<String, Object> login(@RequestBody Client client) throws Exception{
-        Connection c = bdd.getConnection();
+        Connection c = null;
         try {
+            c = bdd.getConnection();
             returnValue.clear();
 
                 client.find(c);
@@ -61,8 +62,9 @@ public class LoginController {
 
     @PostMapping("/clients")
     public HashMap<String, Object> inscription(@RequestBody Client client) throws Exception{
-        Connection c = bdd.getConnection();
+        Connection c = null;
         try {
+            c = bdd.getConnection();
                 client.create(c);
                 returnValue.put("data", true);
         } catch (SQLException ex) {

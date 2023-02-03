@@ -39,10 +39,11 @@ public class GlobalController {
     }
     @GetMapping("/categories")
     public HashMap<String, Object> findCategorie() throws Exception{
-        Connection c = bdd.getConnection();
+        Connection c = null;
         returnValue.clear();
         ArrayList<Categorie> listeCategorie = new ArrayList<>();
         try {
+            c = bdd.getConnection();
                 ArrayList<Object> arrayList = new Categorie().findAll(c);
                 for (Object enchere : arrayList) {
                     listeCategorie.add((Categorie)enchere);

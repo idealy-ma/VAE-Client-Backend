@@ -45,13 +45,14 @@ public class CompteController {
     }
     @GetMapping("/soldes/{idClient}")
     public HashMap<String, Object> findSolde(@PathVariable int idClient,@RequestHeader("userId") int userId,@RequestHeader("hash") String hash) throws Exception{
-        Connection c = bdd.getConnection();
+        Connection c = null;
         TokenUserModel tokenUserModel = new TokenUserModel();
         tokenUserModel.setUserId(userId);
         tokenUserModel.setHash(hash);
         ArrayList<Object> arrayList = tokenUserModel.findAll(c);
         try {
-            if( arrayList.size() > 0 ){
+            c = bdd.getConnection();
+            if( !arrayList.isEmpty() ){
                 returnValue.clear();
                 ArrayList<Client> listeClient = new ArrayList<>();
                 try {
@@ -89,19 +90,19 @@ public class CompteController {
 
     @PostMapping("/soldes")
     public HashMap<String, Object> addRechargement(@RequestBody RechargementCompte rechargementCompte,@RequestHeader("userId") int userId,@RequestHeader("hash") String hash) throws Exception{
-        Connection c = bdd.getConnection();
+        Connection c = null;
         TokenUserModel tokenUserModel = new TokenUserModel();
         tokenUserModel.setUserId(userId);
         tokenUserModel.setHash(hash);
         ArrayList<Object> arrayList = tokenUserModel.findAll(c);
         try {
-            if( arrayList.size() > 0 ){
+            c = bdd.getConnection();
+            if( !arrayList.isEmpty() ){
                 try {
                     returnValue.clear();
                     rechargementCompte.setEtat(1);
                     rechargementCompte.create(c);
                     returnValue.put("data", new JSONException("200", "Insertion OK"));
-                    c.close();
                 } catch (SQLException ex) {
                     Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
                     returnValue.put("error", new JSONException("500", ex.getMessage()));
@@ -123,8 +124,9 @@ public class CompteController {
     public HashMap<String, Object> findRechargementByIdClient(@PathVariable int idClient) throws Exception{
         returnValue.clear();
         ArrayList<RechargementCompte> listeRechargement = new ArrayList<>();
-        Connection c = bdd.getConnection();
+        Connection c = null;
         try {
+            c = bdd.getConnection();
             RechargementCompte rechargementCompte = new RechargementCompte();
             rechargementCompte.setIdClient(idClient);
             ArrayList<Object> listeObjectRechargement = rechargementCompte.findAll(c);
@@ -137,8 +139,6 @@ public class CompteController {
             if (!listeRechargement.isEmpty()) {
                 returnValue.put("data", listeRechargement);
             }
-            c.close();
-            
         } catch (SQLException ex) {
             Logger.getLogger(CompteController.class.getName()).log(Level.SEVERE, null, ex);
             returnValue.put("error", new JSONException("500", ex.getMessage()));
