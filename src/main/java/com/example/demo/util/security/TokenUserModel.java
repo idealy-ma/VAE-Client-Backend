@@ -44,5 +44,6 @@ public class TokenUserModel extends BddObject{
         arrayList.add(this.expirationDate);
         executeQuery(c, sql, arrayList);
     }
+    
 }
  

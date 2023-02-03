@@ -6,7 +6,10 @@
 package com.example.demo.controller;
 
 import com.example.demo.dbmanager.connection.BDD;
+import com.example.demo.model.Client;
+import com.example.demo.model.ClientEncheres;
 import com.example.demo.model.Enchere;
+import com.example.demo.model.PhotoEnchere;
 import com.example.demo.util.exception.JSONException;
 import com.example.demo.util.security.TokenUserModel;
 
@@ -64,6 +67,10 @@ public class EnchereController {
             
             
             for (Object ench : listeObjectEnchere) {
+                Enchere enchere1 = ((Enchere)ench);
+                PhotoEnchere photoEnchere = new PhotoEnchere();
+                photoEnchere.setIdEnchere(enchere1.getIdEnchere());
+                enchere1.setLesSary(photoEnchere.getLesSary());
                 listeEnchere.add((Enchere)ench);
             }
             
@@ -110,7 +117,7 @@ public class EnchereController {
             returnValue.clear();
             returnValue.put("denied", "token expirer");
         }
-        return returnValue;
+        return returnValue; 
     }
     @PostMapping("/encheres")
     public HashMap<String, Object> addEnchere(@RequestBody Enchere enchere,@RequestHeader("userId") int userId,@RequestHeader("hash") String hash) throws Exception{
@@ -122,8 +129,20 @@ public class EnchereController {
         if( !arrayList.isEmpty() ){
             try {
                 returnValue.clear();
-                enchere.create(c);
-                
+                if( enchere.getEtat() == 1 ){
+                    enchere.create(c);
+                    Enchere enchere1 = enchere.getEnd(c);
+                    PhotoEnchere photoEnchere = new PhotoEnchere();
+                    photoEnchere.setIdEnchere(enchere1.getIdEnchere());
+                    photoEnchere.setPhoto(enchere.getPhotos());
+                    photoEnchere.create(c);
+                } else {
+                    Enchere enchere1 = enchere.getEnd(c);
+                    PhotoEnchere photoEnchere = new PhotoEnchere();
+                    photoEnchere.setIdEnchere(enchere1.getIdEnchere());
+                    photoEnchere.setPhoto(enchere.getPhotos());
+                    photoEnchere.create(c);
+                }
                 c.close();
             } catch (SQLException ex) {
                 Logger.getLogger(EnchereController.class.getName()).log(Level.SEVERE, null, ex);
@@ -178,25 +197,8 @@ public class EnchereController {
 
     @GetMapping("/historiques")
     public HashMap<String , Object> getHistorique(@RequestParam("idClient") int idClient) throws Exception {
-        return new HashMap<>();
-    }
-
-    @GetMapping("/recherche:mobile")
-    public HashMap<String , Object> recherche(@RequestParam String motCle) throws Exception {
         HashMap<String , Object> hashMap = new HashMap<>();
-        Connection c = bdd.getConnection();
-        ArrayList<Enchere> encheres = new ArrayList<>();
         try {
-            ArrayList<Object> listeEnchere = new Enchere().recherche(c,motCle);
-                
-                for (Object object : listeEnchere) {
-                    encheres.add((Enchere) object);
-                }
-
-                if (!encheres.isEmpty()) {
-                    hashMap.put("data", encheres);
-                }
-                
         } catch (Exception ex) {
             Logger.getLogger(EnchereController.class.getName()).log(Level.SEVERE, null, ex);
             hashMap.put("error", new JSONException("500", ex.getMessage()));

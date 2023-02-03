@@ -106,4 +106,32 @@ public class CompteController {
         }
         return returnValue;
     }
+
+    @GetMapping("/rechargements/{idClient}")
+    public HashMap<String, Object> findRechargementByIdClient(@PathVariable int idClient) throws Exception{
+        returnValue.clear();
+        ArrayList<RechargementCompte> listeRechargement = new ArrayList<>();
+        try {
+            Connection c = bdd.getConnection();
+            RechargementCompte rechargementCompte = new RechargementCompte();
+            rechargementCompte.setIdClient(idClient);
+            ArrayList<Object> listeObjectRechargement = rechargementCompte.findAll(c);
+            
+            
+            for (Object ench : listeObjectRechargement) {
+                listeRechargement.add((RechargementCompte)ench);
+            }
+            
+            if (!listeRechargement.isEmpty()) {
+                returnValue.put("data", listeRechargement);
+            }
+            c.close();
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(CompteController.class.getName()).log(Level.SEVERE, null, ex);
+            returnValue.put("error", new JSONException("500", ex.getMessage()));
+            return returnValue; 
+        }
+        return returnValue;
+    }
 }

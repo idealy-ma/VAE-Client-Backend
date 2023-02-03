@@ -31,8 +31,31 @@ public class Enchere extends BddObject{
     private int idCategorie;  
     private Client client;
     private int idClient;
+    private String photos;
+    private int etat;
+    private String [] lesSary;
 
+    public String[] getLesSary() {
+        return lesSary;
+    }
 
+    public void setLesSary(String[] lesSary) {
+        this.lesSary = lesSary;
+    }
+
+    public int getEtat() {
+        return etat;
+    }
+    public void setEtat(int etat) {
+        this.etat = etat;
+    }
+
+    public String getPhotos() {
+        return photos;
+    }
+    public void setPhotos(String photos) {
+        this.photos = photos;
+    }
 
     public int getIdEnchere() {
         return idEnchere;
@@ -153,8 +176,8 @@ public class Enchere extends BddObject{
         executeQuery(c, sql, objects);
     }
 
-    public ArrayList<Object> recherche(Connection c,String motCle) throws Exception {
-        String sql = "select * from enchere where (nomproduit like '%"+motCle+"%' or description like '%"+motCle+"%')";
-        return executeResultedQuery(c, sql, null);
+    public Enchere getEnd(Connection connection)throws Exception {
+        String sql = "select * from enchere order by idenchere desc limit 1";
+        return (Enchere)(executeResultedQuery(connection, sql, null).get(0));
     }
 }
